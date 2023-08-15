@@ -9,9 +9,9 @@ import (
 )
 
 func rolling(prices []model.Price, window int, f model.Handler) {
-	var factors []model.Factor
+	factors := make([]model.Factor, len(prices)-window+1)
 	for i := window; i <= len(prices); i++ {
-		factors = append(factors, f(prices[i-window:i]))
+		factors[i-window] = f(prices[i-window : i])
 	}
 	for i := 0; i < 5; i++ {
 		fmt.Println(factors[i].Datetime, factors[i].Val)

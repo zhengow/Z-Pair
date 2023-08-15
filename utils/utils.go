@@ -26,7 +26,7 @@ func LoadData(symbol string, cols []string) []model.Price {
 		panic(err)
 	}
 	tb := tmp.(*m.Table)
-	var prices []model.Price
+	prices := make([]model.Price, tb.Rows())
 	values := make(map[string][]interface{})
 	for _, col := range cols {
 		values[col] = tb.GetColumnByName(col).Data.Value()
@@ -50,7 +50,7 @@ func LoadData(symbol string, cols []string) []model.Price {
 				p.Volume = val.(float64)
 			}
 		}
-		prices = append(prices, p)
+		prices[i] = p
 	}
 	return prices
 }
