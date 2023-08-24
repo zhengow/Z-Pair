@@ -2,18 +2,14 @@ package factor
 
 import "github.com/zhengow/Z-Quant/model"
 
-func factor1(prices []model.Price) model.Factor {
-	var ret float64
-	for i := 0; i < len(prices)-1; i++ {
-		ret += prices[i+1].Open/prices[i].Open - 1
-	}
-	ret = ret / float64(len(prices)-1)
-	return model.Factor{
+func factor1(prices model.Prices) model.Base {
+	ret := (prices[len(prices)-1].Open/prices[0].Open - 1) / float64(len(prices))
+	return model.Base{
 		Datetime: prices[len(prices)-1].Datetime,
 		Val:      ret,
 	}
 }
 
-func Factor1() (int, model.Handler) {
-	return 14400, factor1
+func Factor1() (int, model.Handler, string) {
+	return 1440, factor1, "factor1"
 }
